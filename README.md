@@ -1,3 +1,7 @@
+### 
+  YUP kütüphanesini kullanarak. input valdasyon yapılmalı.
+  Listeleme eklenmeli. 
+
 # Sprint Gün Projesi: Gelişmiş Form Yönetimi - Kullanıcı Katılımı
 
 ## Proje Açıklaması
