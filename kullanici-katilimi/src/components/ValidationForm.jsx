@@ -1,5 +1,5 @@
 import { useState } from "react";
-//import  from 'yup';
+import * as Yup from "yup";
 import DataObj from "../Data/FormData";
 
 const ValidationForm = () => {
@@ -10,6 +10,8 @@ const ValidationForm = () => {
     termsAndConditions: false,
     job: "",
   });
+
+  const validationSchema = Yup.object()
 
   const metaData = [
     {
@@ -49,15 +51,41 @@ const ValidationForm = () => {
 
   const FormSubmitOnceClicked = async (e) => {
     e.preventDefault();
-
-    let TempData = await DataObj.postData(
-      FormData.name,
-      FormData.email,
-      FormData.password,
-      FormData.termsAndConditions,
-      FormData.job
-    );
-    console.log(TempData);
+    const validationSchema = Yup.object(
+      {
+        name: Yup.string().required(),
+        email: Yup.string().email().required(),
+        password: Yup.string().required().min(6),
+        termsAndConditions: Yup.boolean(),
+        job: Yup.string().required()
+      }
+    )
+    // try validating and catch errors.
+    try {
+      await validationSchema.validate(FormData)
+      
+      let TempData = await DataObj.postData(
+        FormData.name,
+        FormData.email,
+        FormData.password,
+        FormData.termsAndConditions,
+        FormData.job
+      );
+      console.log(TempData);
+      // clear form after submitting.
+      if (TempData) {
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          termsAndConditions: false,
+          job: "",
+        })
+        window.alert("User added")
+      }
+    } catch (err) {
+      window.alert(err.errors);
+    }
   };
 
   return (

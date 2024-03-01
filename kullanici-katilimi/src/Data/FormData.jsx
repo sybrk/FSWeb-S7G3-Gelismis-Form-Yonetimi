@@ -5,7 +5,7 @@ const DataObj = {
     getData: async (page) => {
         let result = [];
         try {
-            const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+            const response = await axios.get(`https://reqres.in/api/users?page=${page}&per_page=20`);
             console.log(response.data);
             result = response.data;
         } catch (error) {
